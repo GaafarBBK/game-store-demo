@@ -8,6 +8,7 @@ class Game extends Model
 {
     protected $fillable = [
         'name',
+        'manager',
         'description',
         'image',
         'youtube_url',
