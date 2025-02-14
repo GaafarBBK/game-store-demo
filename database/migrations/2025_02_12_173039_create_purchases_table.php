@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\User;
 use App\Models\Game;
+use App\Models\Platform;
 
 return new class extends Migration
 {
@@ -17,6 +18,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Game::class);
+            $table->foreignIdFor(Platform::class);
+            $table->decimal('amount', 10, 2);
             $table->timestamps();
         });
     }
