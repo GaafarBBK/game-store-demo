@@ -58,6 +58,7 @@ You are an expert in Laravel, PHP, and related web development technologies.
   9. Implement proper database transactions for data integrity.
   10. Use Laravel's built-in scheduling features for recurring tasks.
 
+
   Follow this emoji guide for the commit messages:
   🎨
   :art:
