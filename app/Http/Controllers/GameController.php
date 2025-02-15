@@ -67,12 +67,22 @@ class GameController extends Controller
             });
         }
 
-        if ($request->has('sort') && $request->sort === 'rating') {
-            $query->withAvg('reviews', 'rating')->orderBy('reviews_avg_rating', 'desc');
-        }
+        if ($request->has('sort')) {
+            $direction = $request->input('direction', 'asc'); 
+            $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'asc'; 
 
-        if ($request->has('sort') && $request->sort === 'price') {
-            $query->orderBy('price', 'asc');
+            switch ($request->sort) {
+                case 'rating':
+                    $query->withAvg('reviews', 'rating')
+                          ->orderBy('reviews_avg_rating', $direction);
+                    break;
+                case 'price':
+                    $query->orderBy('price', $direction);
+                    break;
+                default:
+                    $query->latest();
+                    break;
+            }
         }
 
         $perPage = $request->input('per_page', 10);
@@ -83,11 +93,15 @@ class GameController extends Controller
 
     public function show($id)
     {
-        $game = Game::find($id);
-
-        if (!$game) {
-            return response()->json(['message' => 'Game not found'], 404);
-        }
+        $game = Game::with([
+            'platforms',
+            'genres',
+            'cryptocurrencies',
+            'reviews' => function($query) {
+                $query->latest()->limit(5); 
+            },
+            'reviews.user:id,name'
+        ])->findOrFail($id);
 
         return response()->json($game);
     }

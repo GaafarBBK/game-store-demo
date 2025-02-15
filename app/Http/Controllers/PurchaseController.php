@@ -51,14 +51,17 @@ class PurchaseController extends Controller
                 );
             }
             
-            Purchase::create([
+            $purchase = Purchase::create([
                 'game_id' => $game->id,
                 'user_id' => auth()->id(),
                 'platform_id' => $platform->id,
                 'amount' => $game->price,
             ]);
 
-            return response()->json(['message' => 'Purchase successful'], 200);
+            return response()->json([
+                'message' => 'Purchase successful',
+                'redeem_code' => $this->purchaseService->generateRedeemCode($purchase->id)],
+                 200);
 
         } catch (PurchaseFailedException $e) {
             return response()->json([
