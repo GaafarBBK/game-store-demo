@@ -9,9 +9,10 @@ class Game extends Model
     protected $fillable = [
         'name',
         'manager',
+        'price',
         'description',
         'image',
-        'youtube_url',
+        'youtube_url', 
     ];
 
     public function favorites()

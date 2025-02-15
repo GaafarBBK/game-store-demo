@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'bank_api' => [
+        'base_url' => env('BANK_API_BASE_URL'),
+        'api_key' => env('BANK_API_API_KEY'),
+    ],
+
 ];

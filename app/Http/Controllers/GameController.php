@@ -12,9 +12,10 @@ class GameController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'manager' => 'exists:users,id',
+            'price' => 'required|numeric|min:0',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'youtube_url' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'youtube_url' => 'string',
             'genres.*' => 'required|string',
             'platforms.*' => 'required|string',
             'cryptocurrencies.*' => 'required|string',
@@ -23,9 +24,10 @@ class GameController extends Controller
         $game = Game::create([
             'name' => $request->name,
             'manager' => $request->manager ?? $request->user()->id,
+            'price' => $request->price,
             'description' => $request->description,
-            'image' => $request->image,
-            'youtube_url' => $request->youtube_url,
+            'image' => $request->image ?? null,
+            'youtube_url' => $request->youtube_url ?? null,
         ]);
 
         $game->genres()->attach($request->genres);
@@ -69,6 +71,10 @@ class GameController extends Controller
             $query->withAvg('reviews', 'rating')->orderBy('reviews_avg_rating', 'desc');
         }
 
+        if ($request->has('sort') && $request->sort === 'price') {
+            $query->orderBy('price', 'asc');
+        }
+
         $perPage = $request->input('per_page', 10);
         $games = $query->with(['platforms', 'genres', 'cryptocurrencies'])->paginate($perPage);
 
@@ -101,6 +107,7 @@ class GameController extends Controller
         $request->validate([
             'name' => 'string|max:255',
             'description' => 'string',
+            'price' => 'numeric|min:0',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'youtube_url' => 'string',
             'genres.*' => 'string',

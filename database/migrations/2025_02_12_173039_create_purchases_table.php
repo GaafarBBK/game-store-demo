@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Game::class);
             $table->foreignIdFor(Platform::class);
             $table->decimal('amount', 10, 2);
+            $table->timestamp('redeemed_at')->nullable();
             $table->timestamps();
         });
     }
