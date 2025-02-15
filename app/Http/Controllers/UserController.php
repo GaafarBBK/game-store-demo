@@ -13,7 +13,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'role' => 'required|string|in:basic_user,admin,manager|default:basic_user',
+            'role' => 'string|in:basic_user,admin,manager',
             'password' => 'required|string',
         ]);
 
@@ -21,7 +21,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role' => $request->role ?? 'basic_user',
         ]);
 
         $token = $user->createToken($user->email)->plainTextToken;

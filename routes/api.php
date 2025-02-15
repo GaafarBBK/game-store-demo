@@ -7,13 +7,11 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Public routes
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
-Route::get('/games', [GameController::class, 'index']);
+Route::get('/games', [GameController::class, 'search']);
 Route::get('/games/{game}', [GameController::class, 'show']);
 
-// Protected routes
 Route::middleware('auth:sanctum')->group(function () {
     
     Route::post('/logout', [UserController::class, 'logout']);
@@ -24,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/games/{game}', [GameController::class, 'destroy']);
     });
 
-    Route::post('/games/{game}/purchase', [PurchaseController::class, 'purchase'])->middleware('role:basic_user');
+    Route::post('/games/{game}/purchase', [PurchaseController::class, 'store'])->middleware('role:basic_user');
     Route::get('/purchases', [PurchaseController::class, 'index'])->middleware('role:basic_user');
 
     Route::middleware('role:basic_user')->group(function () {

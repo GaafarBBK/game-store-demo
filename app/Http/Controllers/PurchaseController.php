@@ -115,4 +115,15 @@ class PurchaseController extends Controller
         }
         
     }
+
+    public function index(Request $request)
+    {
+        $query = Purchase::query()->with(['game:id,name,price', 'platform:id,name']);
+        
+        if ($request->user()->isRole('basic_user')) {
+            $query->where('user_id', auth()->id());
+        }
+        
+        return response()->json($query->latest()->paginate(10));
+    }
 }
