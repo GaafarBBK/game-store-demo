@@ -14,6 +14,8 @@ class PurchaseFailedException extends Exception
     public const SERVICE_UNAVAILABLE = 'service_unavailable';
     public const ALREADY_PURCHASED = 'already_purchased';
     public const PLATFORM_UNAVAILABLE = 'platform_unavailable';
+    public const INVALID_CODE = 'invalid_code';
+    public const ALREADY_REDEEMED = 'already_redeemed';
     
 
     private static array $errorMessages = [
@@ -22,6 +24,8 @@ class PurchaseFailedException extends Exception
         self::SERVICE_UNAVAILABLE => 'Payment service is currently unavailable',
         self::ALREADY_PURCHASED => 'Game has already been purchased for this platform',
         self::PLATFORM_UNAVAILABLE => 'Game is not available on the selected platform',
+        self::INVALID_CODE => 'Invalid redeem code',
+        self::ALREADY_REDEEMED => 'Code has already been redeemed',
     ];
 
     private array $errors;

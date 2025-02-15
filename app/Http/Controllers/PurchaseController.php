@@ -68,7 +68,7 @@ class PurchaseController extends Controller
         }
 
         // The following commented code is for the purchase service, but since there is no real API, I can't test it so I commented it out.
-        // But check it out for future reference, It's a dynamic purchase service using Dependency Injection, 
+        // But check it out for future reference, It's a dynamic purchase service using a service layer with Dependency Injection, 
         // and a custom exception I created for the purchase service to handle many types of errors.
         
         /*
@@ -77,8 +77,9 @@ class PurchaseController extends Controller
             $platform = Platform::find($request->platform_id);
             
             $this->purchaseService->purchaseGame($game, $platform);
+            $redeemCode = $this->purchaseService->generateRedeemCode($purchase);
             
-            return response()->json(['message' => 'Purchase successful']);
+            return response()->json(['message' => 'Purchase successful', 'redeem_code' => $redeemCode]);
 
         } catch (PurchaseFailedException $e) {
             $message = $e->getMessage();     
@@ -92,5 +93,23 @@ class PurchaseController extends Controller
             ], $code);
         }
         */
+    }
+
+    public function redeemCode(Request $request)
+    {
+        $request->validate([
+            'redeem_code' => 'required|string|max:255',
+        ]);
+
+        try {
+            $purchase = $this->purchaseService->redeemCode($request->redeem_code);
+            return response()->json([
+                'message' => 'Game redeemed successfully!',
+                'purchase' => $purchase,
+            ]);
+        } catch (PurchaseFailedException $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+        
     }
 }

@@ -10,6 +10,7 @@ use App\Models\Game;
 use App\Models\Platform;
 use App\Exceptions\PurchaseFailedException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseService
 {
@@ -104,5 +105,38 @@ class PurchaseService
                 message: 'Failed to process purchase: ' . $e->getMessage()
             );
         }
+    }
+
+    public function generateRedeemCode(Purchase $purchase): string {
+        return base62_encode($purchase->id); 
+    }
+
+    public function redeemCode(string $redeemCode): Purchase {
+        return DB::transaction(function () use ($redeemCode) {
+            $purchaseId = base62_decode($redeemCode);
+
+            $purchase = Purchase::lockForUpdate()->find($purchaseId);
+
+            if (!$purchase) {
+                throw new PurchaseFailedException(
+                    errorType: PurchaseFailedException::INVALID_CODE,
+                    message: 'Invalid redeem code.',
+                    code: 400
+                );
+            }
+
+            if ($purchase->redeemed_at !== null) {
+                throw new PurchaseFailedException(
+                    errorType: PurchaseFailedException::ALREADY_REDEEMED,
+                    message: 'Code already redeemed.',
+                    code: 409
+                );
+            }
+
+            $purchase->redeemed_at = now();
+            $purchase->save();
+
+            return $purchase;
+        });
     }
 }
