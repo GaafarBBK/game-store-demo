@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
 
     Route::middleware('role:admin,manager')->group(function () {
+        Route::post('/games', [GameController::class, 'store']);
         Route::put('/games/{game}', [GameController::class, 'update']);
         Route::delete('/games/{game}', [GameController::class, 'destroy']);
     });
@@ -41,9 +42,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/cryptocurrencies', [GameController::class, 'storeCryptocurrency']);
     });
 
-    Route::middleware('role:manager')->group(function () {
-        Route::post('/games', [GameController::class, 'store']);
-    });
 
     Route::middleware('role:basic_user,manager')->group(function () {
         Route::get('/purchases/games', [PurchaseController::class, 'index']);    

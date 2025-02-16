@@ -30,6 +30,8 @@ class PurchaseService
     
     public function purchaseGame(Game $game, Platform $platform): Purchase
     {
+
+        
         if (!$game->platforms()->where('platform_id', $platform->id)->exists()) {
             throw new PurchaseFailedException(
                 errorType: PurchaseFailedException::PLATFORM_UNAVAILABLE,
@@ -41,7 +43,6 @@ class PurchaseService
             );
         }
 
-        // Check if already purchased
         if ($this->user->purchases()
             ->where('game_id', $game->id)
             ->where('platform_id', $platform->id)

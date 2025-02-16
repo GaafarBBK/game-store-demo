@@ -7,7 +7,7 @@ use App\Models\Game;
 use App\Models\Genre;
 use App\Models\Platform;
 use App\Models\Cryptocurrency;
-
+use Illuminate\Support\Facades\Cache;
 class GameController extends Controller
 {
     public function store(Request $request)
@@ -97,15 +97,19 @@ class GameController extends Controller
 
     public function show($id)
     {
-        $game = Game::with([
+        $cacheKey = "game_{$id}";
+
+        $game = Cache::remember($cacheKey, 60, function () use ($id) {
+            return Game::with([
             'platforms',
             'genres',
             'cryptos',
             'reviews' => function($query) {
-                $query->latest()->limit(5); 
+                $query->latest()->limit(5);
             },
             'reviews.user:id,name'
         ])->find($id);
+        });
 
         if (!$game) {
             return response()->json(['message' => 'Game not found'], 404);
@@ -167,13 +171,12 @@ class GameController extends Controller
             return response()->json(['message' => 'Game not found'], 404);
         }
 
-        if ($game->manager !== auth()->user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        if ($game->manager === auth()->user()->id || auth()->user()->role === 'admin') {
+            $game->delete();
+            return response()->json(['message' => 'Game deleted successfully'], 200);
         }
 
-        $game->delete();
-    
-        return response()->json(['message' => 'Game deleted successfully'], 200);
+        return response()->json(['message' => 'Unauthorized'], 403);
     }
 
     public function storeGenre(Request $request)
@@ -215,6 +218,7 @@ class GameController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'symbol' => 'required|string|max:4',
         ]);
 
         if (Cryptocurrency::where('name', 'LIKE', $request->name)->exists()) {
@@ -223,6 +227,7 @@ class GameController extends Controller
 
         $cryptocurrency = Cryptocurrency::create([
             'name' => $request->name,
+            'symbol' => $request->symbol,
         ]);
 
         return response()->json($cryptocurrency, 201);
