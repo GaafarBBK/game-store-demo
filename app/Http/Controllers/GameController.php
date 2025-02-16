@@ -17,7 +17,7 @@ class GameController extends Controller
             'manager' => 'exists:users,id',
             'price' => 'required|numeric|min:0',
             'description' => 'required|string',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'string',
             'youtube_url' => 'string',
             'genres.*' => 'required|string',
             'platforms.*' => 'required|string',
@@ -126,22 +126,23 @@ class GameController extends Controller
             return response()->json(['message' => 'Game not found'], 404);
         }
 
-        if ($request->user()->id !== $game->manager) {
+        if ($request->user()->id !== $game->manager && $request->user()->role !== 'admin') {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
+        
 
         $request->validate([
             'name' => 'string|max:255',
             'description' => 'string',
             'price' => 'numeric|min:0',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'string',
             'youtube_url' => 'string',
             'genres.*' => 'string',
             'platforms.*' => 'string',
             'cryptocurrencies.*' => 'string',
         ]);
         
-        $game->update($request->only(['name', 'description', 'image', 'youtube_url']));
+        $game->update($request->only(['name', 'description', 'image', 'youtube_url', 'price']));
         
 
         if ($request->has('platforms')) {
