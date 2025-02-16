@@ -163,7 +163,7 @@ class GameController extends Controller
             'cryptos' => $game->cryptos,
         ], 200);
     }
-
+    
     public function destroy($id)
     {
         $game = Game::find($id);

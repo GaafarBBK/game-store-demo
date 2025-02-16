@@ -8,10 +8,12 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Game;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 class GameUpdateTest extends TestCase
 {
+    use DatabaseTransactions;
 
-    use RefreshDatabase;
     public function test_a_manager_can_update_their_own_games()
     {
         $manager = User::factory()->create([
@@ -21,8 +23,6 @@ class GameUpdateTest extends TestCase
         $game = Game::factory()->create([
             'manager' => $manager->id
         ]);
-
-        
 
         $response = $this->actingAs($manager, 'sanctum')->put("/api/games/{$game->id}", [
             'name' => 'Updated Game',
@@ -62,6 +62,24 @@ class GameUpdateTest extends TestCase
             'role' => 'manager'
         ]);
 
+        $other_manager = User::factory()->create([
+            'role' => 'manager'
+        ]);
+
+        $game = Game::factory()->create([
+            'manager' => $manager->id
+        ]);
+
+        $response = $this->actingAs($other_manager, 'sanctum')->putJson("/api/games/{$game->id}", [
+            'name' => 'I will try to update this game, so I could ruin the other manager\'s business',
+            'description' => 'even this description',
+            'price' => 59.99,
+        ]);
+
+        $response->assertStatus(403)
+            ->assertJson([
+                'message' => 'Unauthorized'
+            ]);
     }
 
     public function test_an_admin_can_update_any_game()
@@ -96,7 +114,6 @@ class GameUpdateTest extends TestCase
                     
                 ]
             ]);
-        
     }
 
     public function test_a_basic_user_cannot_update_games()
