@@ -60,7 +60,7 @@ class PurchaseController extends Controller
 
             return response()->json([
                 'message' => 'Purchase successful',
-                'redeem_code' => $this->purchaseService->generateRedeemCode($purchase->id)],
+                'redeem_code' => $this->purchaseService->generateRedeemCode($purchase)],
                  200);
 
         } catch (PurchaseFailedException $e) {
@@ -101,7 +101,7 @@ class PurchaseController extends Controller
     public function redeemCode(Request $request)
     {
         $request->validate([
-            'redeem_code' => 'required|string|max:255',
+            'redeem_code' => 'required|max:255',
         ]);
 
         try {
@@ -118,12 +118,23 @@ class PurchaseController extends Controller
 
     public function index(Request $request)
     {
-        $query = Purchase::query()->with(['game:id,name,price', 'platform:id,name']);
+        $query = Purchase::query()
+            ->with([
+                'game:id,name,price',
+                'platform:id,name',
+                'user:id,name'  
+            ]);
         
-        if ($request->user()->isRole('basic_user')) {
+        if ($request->user()->role === 'basic_user') {
             $query->where('user_id', auth()->id());
         }
+
+        if ($request->user()->role === 'manager') {
+            $query->whereIn('game_id', auth()->user()->games()->pluck('id'));
+        }
+
+        $purchases = $query->latest()->paginate(10);
         
-        return response()->json($query->latest()->paginate(10));
+        return response()->json($purchases);
     }
 }

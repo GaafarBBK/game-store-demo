@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('game_cryptocurrencies', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Game::class);
-            $table->foreignIdFor(Cryptocurrency::class);
+            $table->foreignIdFor(Game::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Cryptocurrency::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

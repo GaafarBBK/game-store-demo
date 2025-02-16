@@ -33,17 +33,17 @@ class Game extends Model
     
     public function cryptos()
     {
-        return $this->belongsToMany(Cryptocurrency::class);
+        return $this->belongsToMany(Cryptocurrency::class, 'game_cryptocurrencies');
     }
 
     public function genres()
     {
-        return $this->belongsToMany(Genre::class);
+        return $this->belongsToMany(Genre::class, 'game_genres');
     }
 
     public function platforms()
     {
-        return $this->belongsToMany(Platform::class);
+        return $this->belongsToMany(Platform::class, 'game_platforms');
     }
     
 }

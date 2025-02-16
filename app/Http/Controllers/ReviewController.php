@@ -16,8 +16,9 @@ class ReviewController extends Controller
         ]);
 
         $user = auth()->user();
+        
 
-        if (!$user->purchases()->where('game_id', $request->game_id)->exists()) {
+        if (!$user->purchases()->where('game_id', $gameId)->exists()) {
             return response()->json(['message' => 'You must purchase the game before reviewing it'], 403);
         }
 

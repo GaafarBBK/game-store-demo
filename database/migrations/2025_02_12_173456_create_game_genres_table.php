@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('game_genres', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Game::class);
-            $table->foreignIdFor(Genre::class);
+            $table->foreignIdFor(Game::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Genre::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

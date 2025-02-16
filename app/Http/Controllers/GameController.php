@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Game;
+use App\Models\Genre;
+use App\Models\Platform;
+use App\Models\Cryptocurrency;
 
 class GameController extends Controller
 {
@@ -32,7 +35,7 @@ class GameController extends Controller
 
         $game->genres()->attach($request->genres);
         $game->platforms()->attach($request->platforms);
-        $game->cryptocurrencies()->attach($request->cryptocurrencies);
+        $game->cryptos()->attach($request->cryptocurrencies);
 
         return response()->json($game, 201);
     }
@@ -51,19 +54,20 @@ class GameController extends Controller
 
         if ($request->has('platform')) {
             $query->whereHas('platforms', function ($q) use ($request) {
-                $q->where('id', $request->platform);
+                $q->where('platforms.id', $request->platform);
             });
+            
         }
 
         if ($request->has('genre')) {
             $query->whereHas('genres', function ($q) use ($request) {
-                $q->where('id', $request->genre);
+                $q->where('genres.id', $request->genre);
             });
         }
 
         if ($request->has('cryptocurrency')) {
-            $query->whereHas('cryptocurrencies', function ($q) use ($request) {
-                $q->where('id', $request->cryptocurrency);
+            $query->whereHas('cryptos', function ($q) use ($request) {
+                $q->where('cryptocurrencies.id', $request->cryptocurrency);
             });
         }
 
@@ -86,7 +90,7 @@ class GameController extends Controller
         }
 
         $perPage = $request->input('per_page', 10);
-        $games = $query->with(['platforms', 'genres', 'cryptocurrencies'])->paginate($perPage);
+        $games = $query->with(['platforms', 'genres', 'cryptos', 'reviews'])->paginate($perPage);
 
         return response()->json($games);
     }
@@ -96,12 +100,16 @@ class GameController extends Controller
         $game = Game::with([
             'platforms',
             'genres',
-            'cryptocurrencies',
+            'cryptos',
             'reviews' => function($query) {
                 $query->latest()->limit(5); 
             },
             'reviews.user:id,name'
-        ])->findOrFail($id);
+        ])->find($id);
+
+        if (!$game) {
+            return response()->json(['message' => 'Game not found'], 404);
+        }
 
         return response()->json($game);
     }
@@ -130,6 +138,7 @@ class GameController extends Controller
         ]);
         
         $game->update($request->only(['name', 'description', 'image', 'youtube_url']));
+        
 
         if ($request->has('platforms')) {
             $game->platforms()->sync($request->platforms);
@@ -138,13 +147,16 @@ class GameController extends Controller
             $game->genres()->sync($request->genres);
         }
         if ($request->has('cryptocurrencies')) {
-            $game->cryptocurrencies()->sync($request->cryptocurrencies);
+            $game->cryptos()->sync($request->cryptocurrencies);
         }
 
         return response()->json([
             'message' => 'Game updated successfully',
-            'game' => $game
-        ]);
+            'game' => $game,
+            'platforms' => $game->platforms,
+            'genres' => $game->genres,
+            'cryptos' => $game->cryptos,
+        ], 200);
     }
 
     public function destroy($id)
@@ -161,6 +173,61 @@ class GameController extends Controller
 
         $game->delete();
     
-        return response()->json(['message' => 'Game deleted successfully']);
+        return response()->json(['message' => 'Game deleted successfully'], 200);
     }
+
+    public function storeGenre(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        if (Genre::where('name', 'LIKE', $request->name)->exists()) {
+            return response()->json(['message' => $request->name . ' already exists'], 400);
+        }
+
+        $genre = Genre::create([
+            'name' => $request->name,
+        ]);
+
+        return response()->json($genre, 201);
+    }
+
+    public function storePlatform(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        if (Platform::where('name', 'LIKE', $request->name)->exists()) {
+            return response()->json(['message' => $request->name . ' already exists'], 400);
+        }
+
+        $platform = Platform::create([
+            'name' => $request->name,
+            ]);
+
+        return response()->json($platform, 201);
+            
+    }
+
+    public function storeCryptocurrency(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        if (Cryptocurrency::where('name', 'LIKE', $request->name)->exists()) {
+            return response()->json(['message' => $request->name . ' already exists'], 400);
+        }
+
+        $cryptocurrency = Cryptocurrency::create([
+            'name' => $request->name,
+        ]);
+
+        return response()->json($cryptocurrency, 201);
+        
+    }
+
+    
 }
