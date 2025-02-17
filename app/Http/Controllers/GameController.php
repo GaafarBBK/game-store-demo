@@ -126,11 +126,6 @@ class GameController extends Controller
             return response()->json(['message' => 'Game not found'], 404);
         }
 
-        if ($request->user()->id !== $game->manager && $request->user()->role !== 'admin') {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-        
-
         $request->validate([
             'name' => 'string|max:255',
             'description' => 'string',
@@ -163,21 +158,14 @@ class GameController extends Controller
             'cryptos' => $game->cryptos,
         ], 200);
     }
-    
+
     public function destroy($id)
     {
         $game = Game::find($id);
 
-        if (!$game) {
-            return response()->json(['message' => 'Game not found'], 404);
-        }
-
-        if ($game->manager === auth()->user()->id || auth()->user()->role === 'admin') {
-            $game->delete();
-            return response()->json(['message' => 'Game deleted successfully'], 200);
-        }
-
-        return response()->json(['message' => 'Unauthorized'], 403);
+        $game->delete();
+        
+        return response()->json(['message' => 'Game deleted successfully'], 200);
     }
 
     public function storeGenre(Request $request)
