@@ -16,10 +16,11 @@ class PurchaseService
 {
     protected string $baseUrl;
     protected string $apiKey;
+    protected User $user;
 
-    public function __construct(
-        protected readonly User $user
-    ) {
+    public function __construct(User $user)
+    {
+        $this->user = $user;
         $this->baseUrl = config('services.bank_api.base_url');
         $this->apiKey = config('services.bank_api.api_key');
     }

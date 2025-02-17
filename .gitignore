@@ -10,6 +10,7 @@
 /bootstrap/cache/
 
 /.env
+/.env.testing
 
 /vendor/
 

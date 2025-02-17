@@ -95,6 +95,17 @@ class GameController extends Controller
         return response()->json($games);
     }
 
+    public function topRatedGames()
+    {
+        $topGames = Cache::remember('top_games', 60, function () {
+            return Game::orderByDesc('rating')
+                       ->limit(10)
+                       ->get();
+        });
+    
+        return response()->json($topGames);
+    }
+
     public function show($id)
     {
         $cacheKey = "game_{$id}";
