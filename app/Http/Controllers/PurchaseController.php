@@ -34,8 +34,8 @@ class PurchaseController extends Controller
                 throw new PurchaseFailedException(
                     errorType: PurchaseFailedException::PLATFORM_UNAVAILABLE,
                     errors: [
-                        'game_id' => $game->id,
-                        'platform_id' => $platform->id,
+                        'game_id' => $game->name,
+                        'platform_id' => $platform->name,
                         'available_platforms' => $game->platforms->pluck('name')->toArray()
                     ]
                 );

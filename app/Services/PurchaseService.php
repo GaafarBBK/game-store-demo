@@ -32,7 +32,6 @@ class PurchaseService
     public function purchaseGame(Game $game, Platform $platform): Purchase
     {
 
-        
         if (!$game->platforms()->where('platform_id', $platform->id)->exists()) {
             throw new PurchaseFailedException(
                 errorType: PurchaseFailedException::PLATFORM_UNAVAILABLE,
