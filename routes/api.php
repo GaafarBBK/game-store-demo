@@ -13,15 +13,13 @@ Route::get('/games', [GameController::class, 'search']);
 Route::get('/games/{game}', [GameController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    
     Route::post('/logout', [UserController::class, 'logout']);
 
     Route::middleware('role:admin,manager')->group(function () {
         Route::post('/games', [GameController::class, 'store']);
-
-        Route::middleware('can:manage-resource,game')->group(function () {
-            Route::put('/games/{game}', [GameController::class, 'update']);
-            Route::delete('/games/{game}', [GameController::class, 'destroy']);
-        });
+        Route::put('/games/{game}', [GameController::class, 'update']);
+        Route::delete('/games/{game}', [GameController::class, 'destroy']);
     });
 
     
@@ -31,11 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/games/{game}/reviews', [ReviewController::class, 'store']);
         Route::get('/games/{game}/reviews', [ReviewController::class, 'index']);
-        
-        Route::middleware('can:manage-resource,review')->group(function () {
-            Route::put('/reviews/{review}', [ReviewController::class, 'update']);
-            Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
-        });
+        Route::put('/reviews/{review}', [ReviewController::class, 'update']);
+        Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
 
         Route::post('/games/{game}/favorite', [FavoriteController::class, 'toggleFavorite']);
         Route::get('/favorites', [FavoriteController::class, 'index']);

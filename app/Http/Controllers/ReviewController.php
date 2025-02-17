@@ -38,7 +38,10 @@ class ReviewController extends Controller
 
     public function update(Request $request, Review $review)
     {
-    
+        if ($review->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $request->validate([
             'rating' => 'integer|min:1|max:5',
             'comment' => 'string|max:500',
@@ -51,7 +54,10 @@ class ReviewController extends Controller
 
     public function destroy(Review $review)
     {
-        
+        if ($review->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $review->delete();
 
         return response()->json(['message' => 'Review deleted']);

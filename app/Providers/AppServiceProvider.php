@@ -30,13 +30,5 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->input('email'));
         });
 
-        // This gate is used to check if the user has permission to manage any of the resources for permission-based functionality.
-        Gate::define('manage-resource', function (User $user, $model) {
-            if ($model instanceof Game) {
-                return $user->id === $model->manager || $user->role === 'admin';
-            }
-
-            return $user->id === $model->user_id || $user->role === 'admin';
-        });
     }
 }
