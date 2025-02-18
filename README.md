@@ -44,6 +44,7 @@ Feature tests are made on a separate MySQL testing database to guarantee the sta
 <li>Advanced Filtering & Sorting - Search by name, filter by genre/platform, and sort by rating or price.</li>
 <li>Automated Testing - Comprehensive Feature tests ensure API reliability on a separate MySQL testing database.</li>
 <li>Error Handling - Custom exception handling for many types of errors.</li>
+<li>Custom Import Seeding Command - Fetching game data from the Gam3s.gg GraphQL API and seeds the database.</li>
 </ul>
 
 ### Entity Relationship Diagram
@@ -99,6 +100,14 @@ Ensure you have the following installed:
 6. Run the backend server
    ```sh
    php artisan serve
+   ```
+
+7. Importing Games from Gam3s.gg
+
+   
+   <I>A custom Artisan command created to import game data from the Gam3s.gg GraphQL API (limit can be adjusted)</i>
+   ```sh
+   php artisan games:import-from-gam3s --limit=20
    ```
 
    
