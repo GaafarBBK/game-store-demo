@@ -34,7 +34,7 @@ Feature tests are made on a separate MySQL testing database to guarantee the sta
 
 ### Features
 <ul>
-<li>Authentication & Role Management - Secure authentication with Role-Based Access Control using Sanctum with rate limiting to prevent brute force attacks.</li>
+<li>Authentication & Role Management - Secure authentication with Role-Based Access Control using Sanctum and custom middleware with rate limiting to prevent brute force attacks.</li>
 <li>Performance Optimization - Caching, polymorphic relationships, race condition handling, rate limiting, dependency injection, pagination, and eager loading optimize performance ensuring a smooth experience. </li>
 <li>Game Management - CRUD operations for games with support for platforms, genres, and cryptocurrencies</li>
 <li>Reviews & Ratings - Users can leave ratings and reviews, with automatic average rating calculations.</li>
