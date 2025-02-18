@@ -98,7 +98,8 @@ class GameController extends Controller
     public function topRatedGames()
     {
         $topGames = Cache::remember('top_games', 60, function () {
-            return Game::orderByDesc('rating')
+            return Game::withAvg('reviews', 'rating')
+                       ->orderBy('reviews_avg_rating', 'desc')
                        ->limit(10)
                        ->get();
         });

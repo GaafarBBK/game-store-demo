@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login'])->middleware('throttle:login');
 Route::get('/games', [GameController::class, 'search']);
-Route::get('/games/{game}', [GameController::class, 'show']);
 Route::get('/games/top-rated', [GameController::class, 'topRatedGames']);
+Route::get('/games/{game}', [GameController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     

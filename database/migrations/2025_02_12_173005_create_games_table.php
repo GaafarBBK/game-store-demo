@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->longText('description');
             $table->foreignId('manager')->constrained('users');
             $table->decimal('price', 10, 2);
             $table->string('image')->nullable();
