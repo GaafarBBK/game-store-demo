@@ -1,70 +1,139 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<a id="readme-top"></a>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<br />
 
-## Laravel Sponsors
+<h3 align="center">Crypto Games Store Demo</h3>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+  <p align="center">
+    <br />
+  
+  </p>
+</div>
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+## About The Project
+A game store backend API built with **Laravel 11**, **MySQL** database, and deployed on **Ngrok** hosting service, featuring authentication, game management, purchases, reviews, and favoriting. It includes role-based access control and a simulated payment gateway integration and supports advanced filtering and sorting and graceful exception handling.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Feature tests are made on a separate MySQL testing database to guarantee the stability on a critical endpoint.
 
-## Code of Conduct
+### Built With
+[![Laravel][Laravel.com]][Laravel-url]
+[![MySQL][MySQL.com]][MySQL-url]
+[![Ngrok][ngrok.com]][ngrok-url]
+[![Composer][Composer.com]][Composer-url]
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+### Features
+<ul>
+<li>Authentication & Role Management - Secure authentication with Role-Based Access Control using Sanctum with rate limiting to prevent brute force attacks.</li>
+<li>Performance Optimization - Caching, polymorphic relationships, race condition handling, rate limiting, dependency injection, pagination, and eager loading optimize performance ensuring a smooth experience. </li>
+<li>Game Management - CRUD operations for games with support for platforms, genres, and cryptocurrencies</li>
+<li>Reviews & Ratings - Users can leave ratings and reviews, with automatic average rating calculations.</li>
+<li>Favorites (Polymorphic) - Users can favorite games and easily extend it for other entities.</li>
+<li>Payment System - Simulated payment gateway for purchasing games.</li>
+<li>Redeem Codes - Unique redeem codes generation & redemption for purchased games with race condition prevention.</li>
+<li>Advanced Filtering & Sorting - Search by name, filter by genre/platform, and sort by rating or price.</li>
+<li>Automated Testing - Comprehensive Feature tests ensure API reliability on a separate MySQL testing database.</li>
+<li>Error Handling - Custom exception handling for many types of errors.</li>
+</ul>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Entity Relationship Diagram
 
-## License
+![Entity Relationship Diagram](./Entity_Relationship_Diagram.jpg)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-<!-- php artisan serve-->
 
-<!-- ngrok http --url=cool-gnu-seemingly.ngrok-free.app 8000 -->
+
+
+## Installation & Setup
+
+### Dependencies 
+
+Ensure you have the following installed:
+<ul>
+<li>PHP 8.1+</li>
+<li>Composer (Dependency Manager)</li>
+<li>MySQL (or any relational database like PostgreSQL)</li>
+</ul>
+
+### Installation & Configuration Steps 
+
+
+1. Clone the repo
+
+   
+   ```sh
+   git clone https://github.com/GaafarBBK/game-store-demo.git
+   ```
+
+2. Navigate to the backend directory and install dependencies
+   ```sh
+   composer install
+   ```
+
+3. Create .env file from the [example template](./.env.example)
+   ```sh
+   cp .env.example .env
+   ```
+
+
+4. Generate the app key
+   ```sh
+   php artisan key:generate
+   ```
+
+5. Set up the database and run migrations
+   ```sh
+   php artisan migrate
+   ```
+
+6. Run the backend server
+   ```sh
+   php artisan serve
+   ```
+
+   
+### Testing
+
+- **API Testing**: Import the provided [Postman Collection](./Game_Store_Demo.postman_collection.json) to your postman for easy backend testing and validation of API endpoints (contact me to make the server online or change the URL to your local host).
+- **Endpoint Testing**: Run the following test to use the feature test I created for updating games:
+  ```sh
+  php artisan test
+  ```
+
+
+## Contact
+
+<ul>
+  <li>Mohamed Gaafar - mohamedgaafar80@gmail.com (+218918709848)</li>
+</ul>
+
+
+
+
+
+
+
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com
+
+[Composer.com]: https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=Composer&logoColor=white
+[Composer-url]: https://getcomposer.org/
+
+[MySQL.com]: https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white
+[MySQL-url]: https://www.mysql.com/
+
+[ngrok.com]: https://img.shields.io/badge/ngrok-140648?style=for-the-badge&logo=Ngrok&logoColor=white
+[ngrok-url]: https://ngrok.com/
+
+
+
