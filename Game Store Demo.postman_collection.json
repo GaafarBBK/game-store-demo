@@ -1,0 +1,505 @@
+{
+	"info": {
+		"_postman_id": "38706d18-0768-4115-b1b9-5c79568eb9e1",
+		"name": "Game Store Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33191679",
+		"_collection_link": "https://captain-devclb.postman.co/workspace/Captain-DevCLB-Workspace~d4077223-0fbe-4633-876e-69b0b0081fe2/collection/33191679-38706d18-0768-4115-b1b9-5c79568eb9e1?action=share&source=collection_link&creator=33191679"
+	},
+	"item": [
+		{
+			"name": "Authenticaion",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Mohamed\",\r\n    \"email\":\"mohamedgaafar1@gmail.com\",\r\n    \"role\": \"admin\",\r\n    \"password\": \"aaaa5555\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.auth) {\r",
+									"    pm.environment.set(\"access_token\", jsonData.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"mohamedgaafar1@gmail.com\",\r\n    \"password\": \"aaaa5555\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Game Management",
+			"item": [
+				{
+					"name": "Create Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": " Hogwarts Legacy",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": " 59.99",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": " Hogwarts Legacy is an immersive, open-world action RPG set in the world first introduced in the Harry Potter books.",
+									"type": "text"
+								},
+								{
+									"key": "youtube_url",
+									"value": " https://www.youtube.com/watch?v=1O6Qstncpnc",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "genres[]",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "genres[]",
+									"value": " 2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "genres[]",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "platforms[]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "platforms[]",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "platforms[]",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "cryptocurrencies[]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "cryptocurrencies[]",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://cool-gnu-seemingly.ngrok-free.app/api/games?query=Hogwarts Legacy",
+							"protocol": "https",
+							"host": [
+								"cool-gnu-seemingly",
+								"ngrok-free",
+								"app"
+							],
+							"path": [
+								"api",
+								"games"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "Hogwarts Legacy"
+								},
+								{
+									"key": "platform",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "genre",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "cryptocurrency",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "rating",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "price",
+									"disabled": true
+								},
+								{
+									"key": "direction",
+									"value": "desc",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show Game",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Show Top Rated Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/top-rated"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Game",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Hogwarts Legacy 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Game",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Genre",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"RPG\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/genres"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Platform",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"PS5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/platforms"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cryptocurrency",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"bitcoin\",\r\n    \"symbol\": \"BTC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/cryptocurrencies"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Purchases",
+			"item": [
+				{
+					"name": "Purchase Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"game_id\":1,\r\n    \"platform_id\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/purchase"
+					},
+					"response": []
+				},
+				{
+					"name": "Redeem Game Code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"redeem_code\":4\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/redeem"
+					},
+					"response": []
+				},
+				{
+					"name": "Show Purchases",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/purchases/games"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Create Review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 5,\r\n    \"comment\": \"GOTY no doubt.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/1/reviews"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Review",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\" : 5,\r\n    \"comment\" : \"Still GOTY idc.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/reviews/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Show Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/1/reviews"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/reviews/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Toggle Favorite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/games/1/favorite"
+					},
+					"response": []
+				},
+				{
+					"name": "Show Favorites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://cool-gnu-seemingly.ngrok-free.app/api/favorites"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "9|Wz5CG8UtZy6shdENQUfw3CaESk4ohcxGDRrx74T8ba567d41"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.headers.add({\r",
+					"    key: 'Content-Type',\r",
+					"    value: 'application/json'\r",
+					"});\r",
+					"\r",
+					"pm.request.headers.add({\r",
+					"    key: 'Accept',\r",
+					"    value: 'application/json'\r",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
