@@ -29,7 +29,7 @@ Feature tests are made on a separate MySQL testing database to guarantee the sta
 [![Laravel][Laravel.com]][Laravel-url]
 [![MySQL][MySQL.com]][MySQL-url]
 [![Ngrok][ngrok.com]][ngrok-url]
-[![Composer][Composer.com]][Composer-url]
+
 
 
 ### Features
