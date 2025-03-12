@@ -123,7 +123,7 @@ Ensure you have the following installed:
 ## Contact
 
 <ul>
-  <li>Mohamed Gaafar - mohamedgaafar80@gmail.com (+218918709848)</li>
+  <li>Mohamed Gaafar - mohamedgaafar80@gmail.com</li>
 </ul>
 
 
